@@ -1,4 +1,4 @@
-package com.example.android3lesson2.model;
+package com.example.android3lesson2.network_model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -45,6 +45,8 @@ public class Hits {
     private Integer userId;
     @SerializedName("user")
     private String user;
+    @SerializedName("userImageURL")
+    private String userImageURL;
 
     public Integer getId() {
         return id;
@@ -221,8 +223,5 @@ public class Hits {
     public void setUserImageURL(String userImageURL) {
         this.userImageURL = userImageURL;
     }
-
-    @SerializedName("userImageURL")
-    private String userImageURL;
 
 }

@@ -1,31 +1,32 @@
 package com.example.android3lesson2.ui.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.android3lesson2.adapter.ImageAdapter;
 import com.example.android3lesson2.base.BaseFragment;
 import com.example.android3lesson2.databinding.FragmentWordsBinding;
-import com.example.android3lesson2.model.Hits;
-import com.example.android3lesson2.model.PixabayResponse;
-import com.example.android3lesson2.utils.App;
+import com.example.android3lesson2.network.RetrofitClient;
+import com.example.android3lesson2.network_model.Hits;
+import com.example.android3lesson2.viewmodel.PixabayViewModel;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 public class WordsFragment extends BaseFragment<FragmentWordsBinding> {
-
+    private static final int DELAY = 2000;
     private static final String TAG = "WordsFragment";
+    RetrofitClient retrofitClient = new RetrofitClient();
+    PixabayViewModel viewModel;
     ImageAdapter imageAdapter;
-
+    private Handler handler = new Handler();
 
     @Override
     public FragmentWordsBinding bind() {
@@ -35,39 +36,68 @@ public class WordsFragment extends BaseFragment<FragmentWordsBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initListeners();
+        viewModel = new ViewModelProvider(this).get(PixabayViewModel.class);
         initAdapter();
+        initListeners();
+
     }
 
+
     private void initListeners() {
-        binding.btnFetch.setOnClickListener(new View.OnClickListener() {
+
+        binding.etWords.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                String text = binding.etWords.getText().toString();
-
-                App.retrofitClient.providePixabayApi().getImages("25678452-c644ee6efc6979cc35175839e", text).enqueue(new Callback<PixabayResponse>() {
-                    @Override
-                    public void onResponse(Call<PixabayResponse> call, Response<PixabayResponse> response) {
-                        imageAdapter.setApiData((ArrayList<Hits>) response.body().getHits());
-                        binding.recyclerview.setAdapter(imageAdapter);
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<PixabayResponse> call, Throwable t) {
-                        Toast.makeText(getContext(), "Fetch wasn't successful", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
             }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (handler != null) {
+                    handler = null;
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.progressBar.setVisibility(View.VISIBLE);
+                        String word = binding.etWords.getText().toString();
+                        viewModel.getImages(word).observe(getViewLifecycleOwner(), images -> {
+                            if (images != null) {
+                                binding.progressBar.setVisibility(View.GONE);
+                                imageAdapter.setApiData((ArrayList<Hits>) images);
+                                binding.recyclerview.setAdapter(imageAdapter);
+
+                            }
+
+
+                        });
+
+                    }
+                }, DELAY);
+
+            }
+
+
         });
+
+
     }
 
     private void initAdapter() {
         imageAdapter = new ImageAdapter();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
 
