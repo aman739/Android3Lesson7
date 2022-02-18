@@ -8,15 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.android3lesson2.databinding.ImageHolderBinding;
-import com.example.android3lesson2.model.Hits;
+import com.example.android3lesson2.network_model.Hits;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewholder> {
     List<Hits> list = new ArrayList<>();
-
-
 
     @NonNull
     @Override
@@ -35,6 +33,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewhol
     public int getItemCount() {
         return list.size();
     }
+
     public void setApiData(List<Hits> list) {
         this.list = list;
     }

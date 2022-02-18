@@ -27,11 +27,12 @@ public class CategoryFragment extends BaseFragment<FragmentCategoryBinding> {
     }
 
     private void initListeners() {
-        binding.tvNavigation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(requireView()).navigate(R.id.wordsFragment);
-            }
-        });
+        binding.tvNavigation.setOnClickListener(view -> Navigation.findNavController(requireView()).navigate(R.id.wordsFragment));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

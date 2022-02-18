@@ -4,4 +4,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="write_whatever_you_wanna_look_up">Write whatever you wanna look up</string>
     <string name="fetch_the_data">Fetch the data</string>
+    <string name="my_profile">My profile</string>
+    <string name="dictionary">Dictionary</string>
+    <string name="learning">Learning</string>
+    <string name="fuck_you">fuck you</string>
+    <string name="gdg">gdg</string>
+
+
 </resources>

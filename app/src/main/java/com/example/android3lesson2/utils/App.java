@@ -6,8 +6,8 @@ import com.example.android3lesson2.network.PixabayApi;
 import com.example.android3lesson2.network.RetrofitClient;
 
 public class App extends Application {
-    PixabayApi api;
     public static RetrofitClient retrofitClient;
+    PixabayApi api;
 
     @Override
     public void onCreate() {

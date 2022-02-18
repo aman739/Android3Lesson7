@@ -14,6 +14,7 @@ public abstract class BaseFragment<VB extends ViewBinding> extends Fragment {
     public VB binding;
 
     public abstract VB bind();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
