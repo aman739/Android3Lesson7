@@ -10,20 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.android3lesson2.adapter.ImageAdapter;
+import com.example.android3lesson2.adapters.ImageAdapter;
 import com.example.android3lesson2.base.BaseFragment;
 import com.example.android3lesson2.databinding.FragmentWordsBinding;
-import com.example.android3lesson2.network.RetrofitClient;
-import com.example.android3lesson2.network_model.Hits;
+import com.example.android3lesson2.models.network_model.Hits;
 import com.example.android3lesson2.viewmodel.PixabayViewModel;
 
 import java.util.ArrayList;
 
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class WordsFragment extends BaseFragment<FragmentWordsBinding> {
     private static final int DELAY = 2000;
-    private static final String TAG = "WordsFragment";
-    RetrofitClient retrofitClient = new RetrofitClient();
     PixabayViewModel viewModel;
     ImageAdapter imageAdapter;
     private Handler handler = new Handler();
@@ -44,7 +43,6 @@ public class WordsFragment extends BaseFragment<FragmentWordsBinding> {
 
 
     private void initListeners() {
-
         binding.etWords.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -63,7 +61,7 @@ public class WordsFragment extends BaseFragment<FragmentWordsBinding> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                handler.postDelayed(new Runnable() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         binding.progressBar.setVisibility(View.VISIBLE);

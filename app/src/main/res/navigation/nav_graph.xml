@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/wordsFragment">
+    app:startDestination="@id/mainBoardFragment">
 
 
     <fragment
@@ -24,5 +24,11 @@
             android:id="@+id/action_wordsFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mainBoardFragment"
+        android:name="com.example.android3lesson2.ui.fragments.MainBoardFragment"
+        android:label="fragment_main_board"
+        tools:layout="@layout/fragment_main_board" />
+
 
 </navigation>

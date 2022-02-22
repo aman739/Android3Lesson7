@@ -2,32 +2,31 @@ package com.example.android3lesson2.repository;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.android3lesson2.network_model.Hits;
-import com.example.android3lesson2.network_model.PixabayResponse;
-import com.example.android3lesson2.utils.App;
+import com.example.android3lesson2.models.network_model.Hits;
+import com.example.android3lesson2.models.network_model.PixabayResponse;
+import com.example.android3lesson2.network.PixabayApi;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PixabayRepository {
-
     public static PixabayRepository pixabayRepository;
+    PixabayApi api;
 
-    public static PixabayRepository getInstance() {
-        if (pixabayRepository == null) {
-            return new PixabayRepository();
-
-        }
-        return pixabayRepository;
+    @Inject
+    public PixabayRepository(PixabayApi api) {
+        this.api = api;
     }
 
     public MutableLiveData<List<Hits>> getImages(String word) {
         MutableLiveData<List<Hits>> imagesList = new MutableLiveData<>();
 
-        App.retrofitClient.providePixabayApi().getImages(word).enqueue(new Callback<PixabayResponse>() {
+        api.getImages(word).enqueue(new Callback<PixabayResponse>() {
             @Override
             public void onResponse(Call<PixabayResponse> call, Response<PixabayResponse> response) {
                 if (response.isSuccessful()) {
