@@ -1,6 +1,6 @@
 package com.example.android3lesson2.network;
 
-import com.example.android3lesson2.network_model.PixabayResponse;
+import com.example.android3lesson2.models.network_model.PixabayResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

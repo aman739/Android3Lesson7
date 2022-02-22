@@ -1,4 +1,4 @@
-package com.example.android3lesson2.adapter;
+package com.example.android3lesson2.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.android3lesson2.databinding.ImageHolderBinding;
-import com.example.android3lesson2.network_model.Hits;
+import com.example.android3lesson2.models.network_model.Hits;
 
 import java.util.ArrayList;
 import java.util.List;

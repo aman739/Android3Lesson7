@@ -1,4 +1,4 @@
-package com.example.android3lesson2.network_model;
+package com.example.android3lesson2.models.network_model;
 
 import com.google.gson.annotations.SerializedName;
 
