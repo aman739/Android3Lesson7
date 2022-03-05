@@ -1,6 +1,5 @@
 package com.example.android3lesson2.ui.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -25,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MainBoardFragment extends BaseFragment<FragmentMainBoardBinding> implements OnPagerClickListener {
-    SharedPreferences sharedPreferences;
 
 
     ViewPagerAdapter adapter;

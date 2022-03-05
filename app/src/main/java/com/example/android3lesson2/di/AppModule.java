@@ -2,6 +2,7 @@ package com.example.android3lesson2.di;
 
 import com.example.android3lesson2.data.local.PreferencesHelper;
 import com.example.android3lesson2.network.PixabayApi;
+import com.example.android3lesson2.network.RapidApi;
 import com.example.android3lesson2.repository.PixabayRepository;
 import com.example.android3lesson2.viewmodel.PixabayViewModel;
 
@@ -25,9 +26,19 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public static PixabayRepository provideRepository(PixabayApi api) {
-        return new PixabayRepository(api);
+    public static PixabayRepository provideRepository(PixabayApi api, RapidApi rapidApi) {
+        return new PixabayRepository(api, rapidApi);
 
+    }
+
+    @Singleton
+    @Provides
+    public static RapidApi provideRapidApi(OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
+                .baseUrl("https://translated-mymemory---translation-memory.p.rapidapi.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build().create(RapidApi.class);
     }
 
     @Provides

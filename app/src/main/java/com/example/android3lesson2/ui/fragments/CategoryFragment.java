@@ -5,14 +5,21 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.android3lesson2.R;
+import com.example.android3lesson2.adapters.CategoryAdapter;
 import com.example.android3lesson2.base.BaseFragment;
 import com.example.android3lesson2.databinding.FragmentCategoryBinding;
+import com.example.android3lesson2.viewmodel.PixabayViewModel;
 
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class CategoryFragment extends BaseFragment<FragmentCategoryBinding> {
+    private PixabayViewModel viewModel;
+    private CategoryAdapter categoryAdapter;
 
 
     @Override
@@ -23,16 +30,49 @@ public class CategoryFragment extends BaseFragment<FragmentCategoryBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(PixabayViewModel.class);
         initListeners();
+        initAdapter();
+        initObserver();
     }
 
-    private void initListeners() {
-        binding.tvNavigation.setOnClickListener(view -> Navigation.findNavController(requireView()).navigate(R.id.wordsFragment));
+    private void initAdapter() {
+        categoryAdapter = new CategoryAdapter();
     }
+
+
+    private void initListeners() {
+        binding.btnAddCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateCategoryBottomSheetFragment createCategoryBottomSheetFragment = new CreateCategoryBottomSheetFragment();
+                createCategoryBottomSheetFragment.show(requireActivity().getSupportFragmentManager(), "category dialog opened");
+
+            }
+        });
+        categoryAdapter.setOnCategoryClickListener(new OnCategoryClickListener() {
+            @Override
+            public void onClick(String category, int position) {
+                Navigation.findNavController(requireView()).navigate(CategoryFragmentDirections.actionCategoryFragmentToWordsFragment(category, position));
+
+            }
+        });
+    }
+
+    private void initObserver() {
+        viewModel.getCategories().observe(getViewLifecycleOwner(), categoryModels -> {
+            if (categoryModels != null) {
+                categoryAdapter.setList(categoryModels);
+                binding.recyclerview.setAdapter(categoryAdapter);
+            }
+
+
+        });
+    }
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-}
